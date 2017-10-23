@@ -19,7 +19,7 @@ function doThis(x) {
   while (order.length) {
     switch (order.shift()) {
       case 1: // clear register
-        register = [0, 0, 0, 0];
+        register = [];
         break;
       case 2: // set active
         active = order.shift();
@@ -27,10 +27,10 @@ function doThis(x) {
       case 4: // save to active
         register[active] = order.shift();
         break;
-      case 5:
+      case 5: // mul
         register[active] = register[order.shift()] * register[order.shift()];
         break;
-      case 6:
+      case 6: // print
         console.log(register[active]);
         break;
       default:
