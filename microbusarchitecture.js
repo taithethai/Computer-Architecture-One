@@ -1,8 +1,4 @@
-// const fs = require('fs');
-// const message = fs.readFileSync('./inputfile', 'utf8');
-// console.log(message.split(/\r?\n|\r/)
-//   .map(str => str.slice(0, str.indexOf('#')).trim())
-//   .filter(item => item !== ''));
+/*
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (input) => {
@@ -38,7 +34,8 @@ function doThis(x) {
     }
   }
 }
-/* Thomson hints:
+*/
+
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', function (text) {
@@ -59,4 +56,60 @@ process.stdin.on('data', function (text) {
     });
   }  
 });
-*/
+const cpu = { 
+  arr    : [],
+  multArr: [],
+  active : undefined,
+  save   : false,
+  mult   : false,
+  set    : false,
+};
+
+cpu.process = (num) => {
+  if (cpu.save) {
+    cpu.save = false;
+    cpu.arr[cpu.active] = num;
+  }
+  else if (cpu.set) {
+    cpu.set = false;
+    cpu.active = num;
+  }
+  else if (cpu.mult) {
+    if (cpu.multArr.length === 1) {
+      cpu.multArr.push(cpu.arr[num]);
+      cpu.arr[cpu.active] = cpu.multArr.pop() * cpu.multArr.pop();
+      cpu.mult = false;
+    }
+  } else {
+    switch (num) {
+      case 1:
+        cpu.arr = [];
+        cpu.multArr = [];
+        cpu.active = undefined;
+        cpu.save = false;
+        cpu.mult = false;
+        cpu.set = false;
+        break;
+      case 2:
+        cpu.set = true;
+        break;
+      case 4:
+        cpu.save = true;
+        break;
+      case 5:
+        cpu.mult = true;
+        break;
+      case 6:
+        console.log(cpu.arr[cpu.active]);
+        break;
+      default:
+        console.log('oops');
+    }
+  }
+
+
+};
+function done() {
+  process.exit();
+}
+
